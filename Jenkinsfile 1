@@ -9,7 +9,7 @@ pipeline {
 	    
 	    steps {
               bat("dir")
-              bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
+              bat("jmeter.bat -n -t sample.jmx -l Samplereport.jtl")
       	}
       	
     }
