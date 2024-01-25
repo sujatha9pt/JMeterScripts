@@ -13,12 +13,19 @@ pipeline {
         }
     }
     
-    post {
-        always {
+   // post {
+       // always {
             // Publish performance test results
-            publishHTML([$class: 'HtmlPublisher', reportDir: 'documents', reportFiles: 'test_results.html'])
+          //  publishHTML([$class: 'HtmlPublisher', reportDir: 'documents', reportFiles: 'test_results.html'])
            
+       // }
+   // }
+  stages {
+        
+        stage('Publish Report') {
+            steps {
+                perfReportfilterRegex: '', sourceDatafiles: '**/*.jtl'
+            }
         }
-    }
 }
 
