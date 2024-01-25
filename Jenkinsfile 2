@@ -1,0 +1,24 @@
+
+pipeline {
+
+    agent any
+
+    stages {
+        
+        stage('Execute Jmeter') {
+            steps {
+                 bat("dir")
+              bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Publish performance test results
+            publishPerformanceResults([[$class: 'JUnitResultArchiver', testResults: '**/performance-results.xml']])
+           
+        }
+    }
+}
+
