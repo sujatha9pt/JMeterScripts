@@ -11,6 +11,7 @@ pipeline {
               bat("dir")
               bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
               step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
+             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
   
       	}
       	
