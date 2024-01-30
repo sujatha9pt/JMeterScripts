@@ -18,10 +18,17 @@ pipeline {
   }
 }
 
-post {
-       always {
-             Publish performance test results
-          // publishHTML([$class: 'HtmlPublisher', reportDir: 'documents', reportFiles: 'test_results.html'])
-           perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Samplereport.jtl'
+stage('Publish Performance Test Report') {
+            steps {
+                script {
+                    // Specify the path to your JTL file(s)
+                    def jtlFiles = 'Samplereport.jtl'
+
+                    // Publish the performance report using the Jenkins Performance Plugin
+                    perfReport percentiles: '0,50,90,95,99', errorFailedThreshold: 1, errorUnstableThreshold: 0,
+                            relativeFailedThresholdPositive: 1, relativeFailedThresholdNegative: 1,
+                            relativeUnstableThresholdPositive: 0, relativeUnstableThresholdNegative: 0,
+                            sourceDataFiles: jtlFiles
+                }
+            }
         }
-    }
