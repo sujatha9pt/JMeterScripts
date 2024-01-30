@@ -14,11 +14,14 @@ pipeline {
            
   
       	}
-     
-    stage('Publishreport'){
-perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Samplereport.jtl'
-} 	
     }
   }
 }
 
+post {
+       always {
+             Publish performance test results
+          // publishHTML([$class: 'HtmlPublisher', reportDir: 'documents', reportFiles: 'test_results.html'])
+           perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Samplereport.jtl'
+        }
+    }
