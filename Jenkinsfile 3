@@ -1,0 +1,21 @@
+pipeline {
+
+	agent any
+  
+  stages {
+   
+    stage('Execute Jmeter') {
+
+	    
+	    steps {
+              bat("dir")
+              bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
+               step([$class: 'ArtifactArchiver', artifacts: 'CP-Perf-Report.html,**/*.jtl, **/jmeter.log',          fingerprint: true])
+    //perfReport "jmeter_scripts\\${jmeterTestFile}_results.jtl"
+    performanceReport parsers: [[$class: 'JMeterParser', glob: "jmeter_scripts\\${jmeterTestFile}_results.jtl"]], relativeFailedThresholdNegative: 1.2, relativeFailedThresholdPositive: 1.89, relativeUnstableThresholdNegative: 1.8, relativeUnstableThresholdPositive: 1.5
+      	}
+      	
+    }
+  }
+}
+
