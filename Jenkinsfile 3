@@ -22,7 +22,7 @@ stage('Publish Performance Test Report') {
             steps {
                 script {
                     // Specify the path to your JTL file(s)
-                    def jtlFiles = 'Samplereport.jtl'
+                    def jtlFiles = 'target/jmeter/reports/*.jtl'
 
                     // Publish the performance report using the Jenkins Performance Plugin
                     perfReport percentiles: '0,50,90,95,99', errorFailedThreshold: 1, errorUnstableThreshold: 0,
