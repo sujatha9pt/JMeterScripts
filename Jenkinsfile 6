@@ -7,23 +7,24 @@ pipeline {
                 // Execute JMeter tests
                 bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
             }
-            post {
-                always {
-                    // Archive JTL files
-                    archiveArtifacts(artifacts: '**/*.jtl', allowEmptyArchive: true)
-                }
-                stage('Publish Performance Test Report') {
-                    steps {
-                        // Publish HTML report
-                        publishHTML(target: [
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: true,
-                            keepAll: true,
-                            reportDir: 'C:/New/html/report', // Use forward slashes for the path
-                            reportFiles: 'Samplereport.html'
-                        ])
-                    }
-                }
+        }
+    }
+
+    post {
+        always {
+            // Archive JTL files
+            archiveArtifacts(artifacts: '**/*.jtl', allowEmptyArchive: true)
+        }
+        stage('Publish Performance Test Report') {
+            steps {
+                // Publish HTML report
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'C:/New/html/report', // Use forward slashes for the path
+                    reportFiles: 'Samplereport.html'
+                ])
             }
         }
     }
