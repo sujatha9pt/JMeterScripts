@@ -1,31 +1,28 @@
-
 pipeline {
-
     agent any
 
     stages {
-        
-        stage('Execute Jmeter') {
+        stage('Execute JMeter') {
             steps {
-                 bat("dir")
-              bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
+                bat("dir")
+                bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                // Publish HTML report using publishHTML
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'C:/New/html/report',
+                    reportFiles: 'Samplereport.html'
+                ])
+
+                // Publish performance test results using perfReport
+                perfReport filterRegex: '', sourceDatafiles: '**/*.jtl'
             }
         }
     }
-    
-   // post {
-       // always {
-            // Publish performance test results
-          //  publishHTML([$class: 'HtmlPublisher', reportDir: 'documents', reportFiles: 'test_results.html'])
-           
-       // }
-   // }
-  stages {
-        
-        stage('Publish Report') {
-            steps {
-                perfReportfilterRegex: '', sourceDatafiles: '**/*.jtl'
-            }
-        }
 }
-
