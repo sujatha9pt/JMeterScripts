@@ -7,16 +7,11 @@ pipeline {
                 // Execute JMeter tests
                 bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
             }
-        }
-    }
-
-    post {
-        always {
-            // Archive JTL files
-            archiveArtifacts(artifacts: '**/*.jtl', allowEmptyArchive: true)
-        }
-        stage('Publish Performance Test Report') {
-            steps {
+            post {
+                always {
+                    // Archive JTL files
+                    archiveArtifacts(artifacts: '**/*.jtl', allowEmptyArchive: true)
+                }
                 // Publish HTML report
                 publishHTML(target: [
                     allowMissing: false,
