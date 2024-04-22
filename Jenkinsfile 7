@@ -25,10 +25,10 @@ pipeline {
         stage('Publish Report') {
             steps {
                 // Archive JTL file
-                archiveArtifacts artifacts: 'results.jtl'
+                archiveArtifacts artifacts: 'Samplereport.jtl'
                 
                 // Generate HTML report from JTL file
-                sh 'jmeter -g results.jtl -o html-report'
+                sh 'jmeter -g Samplereport.jtl -o html-report'
                 
                 // Publish HTML report as artifact
                 publishHTML(target: [reportDir: 'html-report', reportFiles: 'index.html'])
