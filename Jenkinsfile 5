@@ -27,7 +27,7 @@ post {
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
-                        reportDir: 'C:\Users\tsujatha\Documents\New',
+                        reportDir: 'C/New/html/report',
                         reportFiles: 'Samplereport.html'
                     ])
                 }
