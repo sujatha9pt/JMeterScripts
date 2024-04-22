@@ -17,7 +17,7 @@ pipeline {
                     // def jtlFiles = 'target/jmeter/reports/*.jtl'
 
                     // Publish the performance report using the Jenkins Performance Plugin
-                    perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Sample.jtl'
+                    perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Samplereport.jtl'
                 }
             }
         }
