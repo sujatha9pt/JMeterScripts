@@ -2,7 +2,7 @@ pipeline {
     agent any
   
     stages {
-        stage('Execute Jmeter') {
+        stage('Execute JMeter') {
             steps {
                 bat("dir")
                 bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
