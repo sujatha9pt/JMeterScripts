@@ -1,28 +1,20 @@
 pipeline {
-
-	agent any
+    agent any
   
-  stages {
-   
-    stage('Execute Jmeter') {
+    stages {
+        stage('Execute JMeter') {
+            steps {
+                bat("dir")
+                bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
+                step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
+            }
+        }
 
-	    
-	    steps {
-              bat("dir")
-              bat("jmeter -n -t sample.jmx -l Samplereport.jtl")
-              step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
-           
-  
-      	}
-    }
-  }
-}
-
-stage('Publish Performance Test Report') {
+        stage('Publish Performance Test Report') {
             steps {
                 script {
                     // Specify the path to your JTL file(s)
-                    //def jtlFiles = 'target/jmeter/reports/*.jtl'
+                    // def jtlFiles = 'target/jmeter/reports/*.jtl'
 
                     // Publish the performance report using the Jenkins Performance Plugin
                     perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Sample.jtl'
@@ -30,9 +22,7 @@ stage('Publish Performance Test Report') {
             }
         }
 
-
-
-stage('Publish Report') {
+        stage('Publish Report') {
             steps {
                 // Archive JTL file
                 archiveArtifacts artifacts: 'results.jtl'
@@ -42,4 +32,7 @@ stage('Publish Report') {
                 
                 // Publish HTML report as artifact
                 publishHTML(target: [reportDir: 'html-report', reportFiles: 'index.html'])
-
+            }
+        }
+    }
+}
