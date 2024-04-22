@@ -9,30 +9,30 @@ pipeline {
                 step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
             }
         }
-    }
 
-    stage('Publish Performance Test Report') {
-        steps {
-            script {
-                // Specify the path to your JTL file(s)
-                // def jtlFiles = 'target/jmeter/reports/*.jtl'
+        stage('Publish Performance Test Report') {
+            steps {
+                script {
+                    // Specify the path to your JTL file(s)
+                    // def jtlFiles = 'target/jmeter/reports/*.jtl'
 
-                // Publish the performance report using the Jenkins Performance Plugin
-                perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Samplereport.jtl'
+                    // Publish the performance report using the Jenkins Performance Plugin
+                    perfReport filterRegex: '', showTrendGraphs: true, sourceDataFiles: 'Sample.jtl'
+                }
+            }
+        }
+
+        stage('Publish Report') {
+            steps {
+                // Archive JTL file
+                archiveArtifacts artifacts: 'results.jtl'
+                
+                // Generate HTML report from JTL file
+                sh 'jmeter -g results.jtl -o html-report'
+                
+                // Publish HTML report as artifact
+                publishHTML(target: [reportDir: 'html-report', reportFiles: 'index.html'])
             }
         }
     }
-
-    stage('Publish Report') {
-        steps {
-            // Archive JTL file
-            archiveArtifacts artifacts: 'results.jtl'
-                
-            // Generate HTML report from JTL file
-            sh 'jmeter -g Samplereport.jtl -o html-report'
-                
-            // Publish HTML report as artifact
-            publishHTML(target: [reportDir: 'html-report', reportFiles: 'index.html'])
-        }
-    }
-} // Missing closing curly brace for the pipeline block
+}
