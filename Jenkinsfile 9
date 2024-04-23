@@ -9,6 +9,7 @@ pipeline {
                 step([$class: 'ArtifactArchiver', artifacts: '**/*.jtl'])
             }
         }
+}
 
         stage('Publish Performance Test Report') {
             steps {
@@ -22,4 +23,4 @@ pipeline {
             }
         }
 
-     }  
+     }
